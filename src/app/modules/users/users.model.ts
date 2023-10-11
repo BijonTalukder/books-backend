@@ -15,7 +15,8 @@ const UserSchena = new Schema<IUser>(
         },
         id:{
             type:String
-        }
+        },
+        role:{type:String}
 
     },{
         timestamps:true

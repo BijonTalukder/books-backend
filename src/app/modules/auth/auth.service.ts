@@ -18,8 +18,11 @@ const LogIn = async (payload:ILogInUser)=>{
         email:email,
         password:password
     })
+    console.log(userExist);
+    
     if(userExist){
-        const payload ={}
+        const payload ={email:userExist.email,
+       role: userExist.role}
         const jwtToken = jwt.sign(payload,'very-secret',{expiresIn:'365d'})
         return jwtToken
 
