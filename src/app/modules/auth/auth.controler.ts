@@ -7,7 +7,7 @@ const LogInUser = async (req:Request,res:Response,next:NextFunction) =>{
         const {...LogInData} = req.body;
         const result = await AuthService.LogIn(LogInData)
         // return result
-        res.status(200).json({token:result})
+        res.status(200).json({data:result})
     }
     catch(e){
 

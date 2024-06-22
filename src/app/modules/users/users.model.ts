@@ -3,6 +3,9 @@ import { IUser, IUserModel } from "./users.interface";
 
 const UserSchena = new Schema<IUser>(
     {
+        name:{
+            type:String
+        },
         email:{
             type:String,
             unique:true,
