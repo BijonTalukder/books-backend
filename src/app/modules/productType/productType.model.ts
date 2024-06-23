@@ -5,7 +5,16 @@ const productTypeSchema = new Schema<IProductType>(
     {
         productTypeName:{
             type:String
+        },
+        ImgUrl:{
+            type:String
         }
+        ,
+        createdAt:{
+            type:Date,
+            default:Date.now()
+        }
+       
 
     },
     {
