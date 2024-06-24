@@ -3,6 +3,7 @@ import { IProductType, IProductTypeModel } from "./productType.interface";
 
 const productTypeSchema = new Schema<IProductType>(
     {
+
         productTypeName:{
             type:String
         },
@@ -14,7 +15,7 @@ const productTypeSchema = new Schema<IProductType>(
             type:Date,
             default:Date.now()
         }
-       
+
 
     },
     {

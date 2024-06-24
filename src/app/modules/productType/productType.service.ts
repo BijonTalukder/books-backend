@@ -1,7 +1,9 @@
 import { IProductType } from "./productType.interface";
 import { productTypeModel } from "./productType.model"
 
-const createProductType = async(postData:IProductType)=>{
+const createProductType = async(postData)=>{
+    console.log(postData);
+
     const result = await productTypeModel.create(postData)
     return result;
 }
