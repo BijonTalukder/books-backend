@@ -8,5 +8,6 @@ router.post("/create",fileUploadHelper.upload.single('file'),productTypeControll
 router.get("/", productTypeController.getProductType);
 
 router.get("/:id",productTypeController.getSingleProdutType)
+router.patch("/:id",productTypeController.updateProductType)
 
 export const productTypeRouter = router
