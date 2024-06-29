@@ -11,7 +11,12 @@ const getProductType = async()=>{
     const result = await productTypeModel.find({});
     return result
 }
+const getSingleProductType = async(id)=>{
+    const result = await productTypeModel.findOne({_id:id});
+    return result
+}
 export const productTypeService={
     createProductType,
-    getProductType
+    getProductType,
+    getSingleProductType
 }

@@ -38,8 +38,25 @@ const getProductType: RequestHandler = async (
     });
   } catch (error) {}
 };
+const getSingleProdutType:RequestHandler = async(req: Request,
+  res: Response,
+  next: NextFunction)=>{
+    try {
+      const result = await productTypeService.getSingleProductType(req.params.id);
+      res.status(200).json({
+        statusCode: httpsStatus.OK,
+        success: true,
+        message: "get product type successfully!",
+        data: result,
+      });
+      
+    } catch (error) {
+      
+    }
 
+}
 export const productTypeController ={
     createProductType,
-    getProductType
+    getProductType,
+    getSingleProdutType
 }

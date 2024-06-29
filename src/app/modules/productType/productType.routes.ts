@@ -7,5 +7,6 @@ const router = express.Router();
 router.post("/create",fileUploadHelper.upload.single('file'),productTypeController.createProductType)
 router.get("/", productTypeController.getProductType);
 
+router.get("/:id",productTypeController.getSingleProdutType)
 
 export const productTypeRouter = router
