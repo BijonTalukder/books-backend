@@ -38,25 +38,44 @@ const getProductType: RequestHandler = async (
     });
   } catch (error) {}
 };
-const getSingleProdutType:RequestHandler = async(req: Request,
+const getSingleProdutType: RequestHandler = async (
+  req: Request,
   res: Response,
-  next: NextFunction)=>{
-    try {
-      const result = await productTypeService.getSingleProductType(req.params.id);
-      res.status(200).json({
-        statusCode: httpsStatus.OK,
-        success: true,
-        message: "get product type successfully!",
-        data: result,
-      });
-      
-    } catch (error) {
-      
-    }
+  next: NextFunction
+) => {
+  try {
+    const result = await productTypeService.getSingleProductType(req.params.id);
+    res.status(200).json({
+      statusCode: httpsStatus.OK,
+      success: true,
+      message: "get product type successfully!",
+      data: result,
+    });
+  } catch (error) {}
+};
+const updateProductType: RequestHandler = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    console.log(req.body);
 
-}
-export const productTypeController ={
-    createProductType,
-    getProductType,
-    getSingleProdutType
-}
+    const result = await productTypeService.updateProductType({
+      id: req.params.id,
+      ...req.body,
+    });
+    res.status(200).json({
+      statusCode: httpsStatus.OK,
+      success: true,
+      message: "get product type successfully!",
+      data: result,
+    });
+  } catch (error) {}
+};
+export const productTypeController = {
+  createProductType,
+  getProductType,
+  getSingleProdutType,
+  updateProductType,
+};
