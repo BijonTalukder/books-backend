@@ -12,6 +12,12 @@ const storeSchema = new Schema<IStore>({
         storeAddress:{
             type:String
         },
+        type: {
+            type: String,
+            enum: ["Point"],
+            // required: true,
+            default: "Point",
+          },
         coordinates:{
             type:[
                 Number

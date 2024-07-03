@@ -13,6 +13,7 @@ export interface IStore extends mongoose.Document {
     status: StoreStatus;
     pointLocation: {
         storeAddress: string;
+        type:string;
         coordinates: number[];     
     };
 }
