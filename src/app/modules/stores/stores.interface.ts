@@ -8,7 +8,7 @@ import mongoose, { Model } from "mongoose";
 }
 export interface IStore extends mongoose.Document {
     storeName: string;
-    userId: mongoose.Types.ObjectId; // Use mongoose.Types.ObjectId for userId
+    userId: mongoose.Types.ObjectId;
     imgUrl: string;
     status: StoreStatus;
     pointLocation: {

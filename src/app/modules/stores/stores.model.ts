@@ -1,4 +1,4 @@
-import mongoose, { Mongoose, Schema } from "mongoose";
+import mongoose, { Mongoose, Schema, model } from "mongoose";
 import { IStore } from "./stores.interface";
 
 const storeSchema = new Schema<IStore>({
@@ -23,6 +23,8 @@ const storeSchema = new Schema<IStore>({
         enum:["active","inactive","pending","deleted"]
     },
     userId:{
-        type:mongoose.Types.ObjectId
+        type:Schema.Types.ObjectId
     }
 })
+storeSchema.index({ pointLocation: "2dsphere" });
+export const StoreModel = model<IStore>('Store', storeSchema);
