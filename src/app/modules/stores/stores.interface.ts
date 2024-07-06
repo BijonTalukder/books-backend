@@ -6,6 +6,7 @@ import mongoose, { Model } from "mongoose";
     Pending = 'pending',
     Deleted = 'deleted'
 }
+
 export interface IStore extends mongoose.Document {
     storeName: string;
     userId: mongoose.Types.ObjectId;

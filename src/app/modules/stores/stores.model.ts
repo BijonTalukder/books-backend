@@ -29,7 +29,11 @@ const storeSchema = new Schema<IStore>({
         enum:["active","inactive","pending","deleted"]
     },
     userId:{
-        type:Schema.Types.ObjectId
+        type:Schema.Types.ObjectId,
+        required:true,
+        unique:true,
+        ref:'users'
+
     }
 })
 storeSchema.index({ pointLocation: "2dsphere" });
