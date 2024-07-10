@@ -1,6 +1,7 @@
 import mongoose, { Mongoose, Schema, model } from "mongoose";
 import { IStore } from "./stores.interface";
 
+
 const storeSchema = new Schema<IStore>({
     storeName:{
         type:String

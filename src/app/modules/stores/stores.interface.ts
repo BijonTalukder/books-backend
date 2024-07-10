@@ -7,6 +7,7 @@ import mongoose, { Model } from "mongoose";
     Deleted = 'deleted'
 }
 
+
 export interface IStore extends mongoose.Document {
     storeName: string;
     userId: mongoose.Types.ObjectId;
