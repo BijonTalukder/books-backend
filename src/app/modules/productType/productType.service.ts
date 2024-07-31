@@ -26,9 +26,14 @@ const updateProductType = async (body: any) => {
 
   return result;
 };
+const getProductTypeStore = async (id:any)=>{
+  const result = await productTypeModel.find({storeId:id});
+  return result
+}
 export const productTypeService = {
   createProductType,
   getProductType,
   getSingleProductType,
   updateProductType,
+  getProductTypeStore
 };
