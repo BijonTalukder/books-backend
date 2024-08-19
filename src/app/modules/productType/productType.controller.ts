@@ -88,17 +88,19 @@ const updateProductType: RequestHandler = async (
 const getProductTypeStore:RequestHandler = async(req: Request,
   res: Response,
   next: NextFunction)=>{
-    const token = req?.headers.authorization
-    console.log(token);
+    console.log("hello dev");
+    const id = req?.id
+    // const token = req?.headers.authorization
+    // console.log(token);
     
-    const ReqData = JwtHelper.decode(token as string,"very-secret");
-    console.log(ReqData);
+    // const ReqData = JwtHelper.decode(token as string,"very-secret");
+    // console.log(ReqData);
     
-    const userData = await UserModel.findOne({email:ReqData?.email})
-    const storeData = await StoreModel.findOne({userId:userData?._id});
-    // console.log();
+    // const userData = await UserModel.findOne({email:ReqData?.email})
+    // const storeData = await StoreModel.findOne({userId:userData?._id});
+    // console.log("hit this");
     
-  const result = await productTypeService.getProductTypeStore(storeData?._id);
+  const result = await productTypeService.getProductTypeStore(id);
   res.status(200).json({
     statusCode: httpsStatus.OK,
     success: true,
