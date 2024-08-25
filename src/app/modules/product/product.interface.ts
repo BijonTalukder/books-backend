@@ -13,9 +13,12 @@ export interface IProduct extends mongoose.Document {
     id: number;
     description: string;
     price: number;
+    ImgUrl:string;
     quantity: number;
     isAvailable: boolean;
     status: boolean;
     storeId: mongoose.Schema.Types.ObjectId;
+    productTypeId: mongoose.Schema.Types.ObjectId;
+
     offers: IOffer[];
 }

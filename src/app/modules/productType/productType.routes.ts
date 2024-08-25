@@ -9,6 +9,6 @@ router.get("/", productTypeController.getProductType);
 
 router.get("/:id",productTypeController.getSingleProdutType)
 router.patch("/:id",productTypeController.updateProductType)
-router.get("/get-productType-store",productTypeController.getProductTypeStore)
+router.get("/get-productType-store/:id",productTypeController.getProductTypeStore)
 
 export const productTypeRouter = router

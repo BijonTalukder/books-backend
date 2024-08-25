@@ -11,10 +11,14 @@ const productSchema = new Schema<IProduct>({
   productName:{type:String,required:true},
   price:{type:Number,required:true},
   description:{type:String},
+  ImgUrl:{
+    type:String
+},
   quantity:{type:Number},
   isAvailable:{type:Boolean,default:true},
   status:{type:Boolean,default:true},
   storeId:{type:mongoose.Types.ObjectId,ref:'store'},
+  productTypeId:{type:mongoose.Types.ObjectId,ref:'productTypes'},
   offers:{type:[OfferSchema],required:false,default:[]}
 },{
     timestamps:true
