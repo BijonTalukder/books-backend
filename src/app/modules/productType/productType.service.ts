@@ -17,8 +17,7 @@ const getSingleProductType = async (id: any) => {
 };
 const updateProductType = async (body: any) => {
   const { id, ...data } = body;
-  //   const id = body.id;
-  //   const data = body.postBody;
+
   console.log("service", data);
 
   const result = await productTypeModel.findByIdAndUpdate({ _id: id }, data);
