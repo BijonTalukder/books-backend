@@ -2,6 +2,9 @@ import { NextFunction, Request, RequestHandler, Response } from "express";
 import { fileUploadHelper } from "../../../helpers/fileUploadHelper";
 import { productTypeService } from "./productType.service";
 import httpsStatus from "http-status-codes"
+import { JwtHelper } from "../../../helpers/jwt/decodeJwt";
+import { UserModel } from "../users/users.model";
+import { StoreModel } from "../stores/stores.model";
 
 const createProductType: RequestHandler = async (
   req: Request,
@@ -9,11 +12,20 @@ const createProductType: RequestHandler = async (
   next: NextFunction
 ) => {
   try {
+    const token = req?.headers.authorization
+    console.log(token);
+    
+    const ReqData = JwtHelper.decode(token as string,"very-secret");
+    console.log(ReqData);
+    
+    const userData = await UserModel.findOne({email:ReqData?.email})
+    const storeData = await StoreModel.findOne({userId:userData?._id});
+  
     const { ...postBody } = req.body;
     const data = JSON.parse(postBody.data);
     const ImgUrl = await fileUploadHelper.uploadToCloudinary(req.file);
 
-    const finalData = { ...data, ImgUrl: ImgUrl.url };
+    const finalData = { ...data, ImgUrl: ImgUrl.url,storeId:storeData?._id };
     const result = await productTypeService.createProductType(finalData);
     res.status(200).json({
       statusCode: httpsStatus.OK,
@@ -59,7 +71,7 @@ const updateProductType: RequestHandler = async (
   next: NextFunction
 ) => {
   try {
-    console.log(req.body);
+  
 
     const result = await productTypeService.updateProductType({
       id: req.params.id,
@@ -73,9 +85,33 @@ const updateProductType: RequestHandler = async (
     });
   } catch (error) {}
 };
+const getProductTypeStore:RequestHandler = async(req: Request,
+  res: Response,
+  next: NextFunction)=>{
+    console.log("hello dev");
+    const id = req?.id
+    // const token = req?.headers.authorization
+    // console.log(token);
+    
+    // const ReqData = JwtHelper.decode(token as string,"very-secret");
+    // console.log(ReqData);
+    
+    // const userData = await UserModel.findOne({email:ReqData?.email})
+    // const storeData = await StoreModel.findOne({userId:userData?._id});
+    // console.log("hit this");
+    
+  const result = await productTypeService.getProductTypeStore(id);
+  res.status(200).json({
+    statusCode: httpsStatus.OK,
+    success: true,
+    message: "get product type successfully!",
+    data: result,
+  });
+}
 export const productTypeController = {
   createProductType,
   getProductType,
   getSingleProdutType,
   updateProductType,
+  getProductTypeStore
 };

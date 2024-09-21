@@ -1,6 +1,7 @@
 import { v2 as cloudinary } from 'cloudinary';
 import multer from 'multer';
 import * as fs from 'fs'
+import { ICloudinaryResponse, IUploadFile } from '../app/interface/file';
 
     // Configuration
     cloudinary.config({ 
@@ -8,18 +9,19 @@ import * as fs from 'fs'
         api_key: '471757252541213', 
         api_secret: '7gB6E_Fjjfd16Hhl4iQ4soePcNI' // Click 'View Credentials' below to copy your API secret
     });
-    const uploadToCloudinary = async(file)=>{
+    const uploadToCloudinary = async(file:IUploadFile):Promise<ICloudinaryResponse>=>{
         return new Promise((resolve,reject)=>{
-          cloudinary.uploader.upload(file.path,{
-            public_id: file.originalname,
-          },(error,result)=>{
-fs.unlinkSync(file.path)
-if(error){
-    reject(error)
-}
-else{
-    resolve(result)
-}
+          cloudinary.uploader.upload(file.path,(error:Error,result:ICloudinaryResponse)=>{
+            // {
+            //     // public_id: file.originalname,
+            //   }
+            fs.unlinkSync(file.path)
+          if(error){
+              reject(error)
+             }
+          else{
+            resolve(result)
+             }
           })  
         })
     // Upload an image
