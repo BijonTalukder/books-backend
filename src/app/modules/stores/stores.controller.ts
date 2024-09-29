@@ -47,7 +47,20 @@ const getStore = async(
           });
 }
 
+const getSingleStore = async(req:Request,res:Response,next:NextFunction)=>{
+   
+   const id = req.params.id
+    const result = await storeService.getSingleStore(id);
+    res.status(200).json({
+        statusCode: httpsStatus.OK,
+        success: true,
+        message: "get store successfully!",
+        data: result,
+      });
+}
+
 export const storeController ={
     createStore,
-    getStore
+    getStore,
+    getSingleStore
 }

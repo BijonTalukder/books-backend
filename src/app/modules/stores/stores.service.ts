@@ -9,8 +9,14 @@ const getStore = async()=>{
     const result = await StoreModel.find({})
     return result
 }
+const getSingleStore= async(id:any)=>{
+    const result = await StoreModel.find({_id:id});
+    return result;
+
+}
 
 export const storeService ={
     createStore,
-    getStore
+    getStore,
+    getSingleStore
 }
