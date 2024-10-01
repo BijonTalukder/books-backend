@@ -10,7 +10,22 @@ const getStore = async()=>{
     return result
 }
 const getSingleStore= async(id:any)=>{
-    const result = await StoreModel.find({_id:id});
+    const result = await StoreModel.aggregate([
+        {
+            $match:{
+              _id:id
+            }
+        },
+        {
+            $lookup:{
+                from:"users",
+                localField:"userId",
+                foreignField:"_id",
+                as:"userDetails"
+            }
+        }
+
+    ])
     return result;
 
 }
