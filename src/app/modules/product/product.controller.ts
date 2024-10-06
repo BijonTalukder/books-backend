@@ -21,7 +21,7 @@ const createProduct =async(req:Request,res:Response,next:NextFunction)=>{
         const data = JSON.parse(postBody.data);
         const ImgUrl:ICloudinaryResponse = await fileUploadHelper.uploadToCloudinary(req.file as IUploadFile);
         const finalData = { ...data, ImgUrl: ImgUrl.url,storeId:storeData?._id };
-console.log(finalData);
+
 
         const result = await productServiece.createProduct(finalData)
         
@@ -42,4 +42,20 @@ const getProduct = async(req:Request,res:Response,next:NextFunction)=>{
     const result = await productServiece.getProduct();
     
 }
-export const productController={createProduct,getProduct}
+
+const getProductByStore = async(req:Request,res:Response,next:NextFunction)=>{
+    const id = req.params.id;
+    const result = await productServiece.getProductByStore(id);
+        
+
+    res.status(200).json({
+        statusCode: httpsStatus.OK,
+        success: true,
+        message: "get store successfully!",
+        data: result,
+      });
+
+
+
+}
+export const productController={createProduct,getProduct,getProductByStore}

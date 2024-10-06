@@ -1,3 +1,4 @@
+import mongoose from "mongoose";
 import { IProduct } from "./product.interface"
 import { productModel } from "./product.model"
 
@@ -11,4 +12,18 @@ const createProduct =async(postBody:IProduct)=>{
 const getProduct = async()=>{
     const result = await productModel.find({});
 }
-export const productServiece={createProduct,getProduct}
+
+const getProductByStore = async(id:any)=>{
+    const objectId = new mongoose.Types.ObjectId(id);
+
+    const result = await productModel.aggregate([
+        {
+            $match:{
+            storeId:objectId
+        }
+    }
+
+    ])
+    return result;
+}
+export const productServiece={createProduct,getProduct,getProductByStore}

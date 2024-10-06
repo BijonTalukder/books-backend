@@ -1,3 +1,4 @@
+import mongoose from "mongoose";
 import { StoreModel } from "./stores.model";
 
 const createStore=async(postBody:any)=>{
@@ -10,23 +11,36 @@ const getStore = async()=>{
     return result
 }
 const getSingleStore= async(id:any)=>{
-    const result = await StoreModel.aggregate([
+    const objectId = new mongoose.Types.ObjectId(id);
+
+    // const objectId = mongoose.Types.ObjectId(id);
+
+    // Check if the find query works
+    const findResult = await StoreModel.find({
+        _id: objectId
+    });
+    console.log("Find result:", findResult);
+
+    // Now use the objectId in the aggregate
+    const aggregateResult = await StoreModel.aggregate([
         {
-            $match:{
-              _id:id
+            $match: {
+                _id: objectId
             }
         },
         {
-            $lookup:{
-                from:"users",
-                localField:"userId",
-                foreignField:"_id",
-                as:"userDetails"
+            $lookup: {
+                from: "users",
+                localField: "userId",
+                foreignField: "_id",
+                as: "userDetails"
             }
         }
+    ]);
 
-    ])
-    return result;
+    console.log("Aggregate result:", aggregateResult);
+
+    return aggregateResult;
 
 }
 

@@ -49,7 +49,15 @@ const getStore = async(
 
 const getSingleStore = async(req:Request,res:Response,next:NextFunction)=>{
    
-   const id = req.params.id
+   const id = req.params.id;
+   if (!mongoose.Types.ObjectId.isValid(id)) {
+    return res.status(httpsStatus.BAD_REQUEST).json({
+      statusCode: httpsStatus.BAD_REQUEST,
+      success: false,
+      message: "Invalid store ID",
+    });
+  }
+
     const result = await storeService.getSingleStore(id);
     res.status(200).json({
         statusCode: httpsStatus.OK,
@@ -59,8 +67,13 @@ const getSingleStore = async(req:Request,res:Response,next:NextFunction)=>{
       });
 }
 
+const getProductByStore = async (req:Request,res:Response,next:NextFunction)=>{
+    const id = req.params.id;
+}
+
 export const storeController ={
     createStore,
     getStore,
-    getSingleStore
+    getSingleStore,
+    getProductByStore
 }
