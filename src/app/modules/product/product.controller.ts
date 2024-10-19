@@ -44,6 +44,8 @@ const getProduct = async(req:Request,res:Response,next:NextFunction)=>{
 }
 
 const getProductByStore = async(req:Request,res:Response,next:NextFunction)=>{
+
+    console.log("hi api")
     const id = req.params.id;
     const result = await productServiece.getProductByStore(id);
         
