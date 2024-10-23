@@ -5,7 +5,7 @@ import { ICart, ICartItem } from "./cart.interface";
 
 const cartItemSchema = new Schema<ICartItem>({
     product:{type:[]},
-    productId: { type: mongoose.Schema.Types.ObjectId, ref: "Product", required: true }, // Assuming you are storing product as a reference
+    id: { type: mongoose.Schema.Types.ObjectId, ref: "Product", required: true }, // Assuming you are storing product as a reference
    price:{type:Number},
     quantity: { type: Number, required: true },
     selectedOptions: { type: [String], default: [] },

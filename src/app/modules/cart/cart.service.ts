@@ -11,10 +11,11 @@ const validateCartItemsRecursive = async (items: ICartItem[], index: number = 0)
     }
 
     let product = items[index];
-    let originalProduct = await productModel.findOne({ _id: product.productId });
-
+    console.log('hello dev',items)
+    let originalProduct = await productModel.findOne({ _id: product.id });
+  console.log("org",originalProduct)
     if (!originalProduct) {
-        throw new Error(`Product not found: ${product.productId}`);
+        throw new Error(`Product not found: ${product.id}`);
     }
 
     

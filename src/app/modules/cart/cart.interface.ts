@@ -3,7 +3,9 @@ import { IProduct } from "../product/product.interface";
 
 export interface ICartItem extends Document {
     product: IProduct;
-    productId:mongoose.Schema.Types.ObjectId;
+    _id?:mongoose.Schema.Types.ObjectId;
+
+    id:mongoose.Schema.Types.ObjectId;
     quantity: number;
     price:number;
     selectedOptions: string[];

@@ -7,7 +7,10 @@ const LogIn = async (payload: ILogInUser) => {
   const { email, password } = payload;
 
   const isEmailExist = await UserModel.exists({ email });
+  console.log(1)
   const isPasswordExist = await UserModel.exists({ password });
+  console.log(isPasswordExist)
+
   if (!isEmailExist) {
     throw new ApiError(httpsStatus.NOT_FOUND, "email not found");
   }

@@ -10,6 +10,7 @@ const LogInUser = async (req:Request,res:Response,next:NextFunction) =>{
         res.status(200).json({data:result})
     }
     catch(e){
+        console.log(e)
 
     }
 
