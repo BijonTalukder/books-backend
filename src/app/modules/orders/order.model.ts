@@ -7,7 +7,7 @@ const orderItemSchema = new Schema<IOrderItem>({
         ref: 'products',
         required: true
     },
-    name: {
+    productName: {
         type: String,
         required: true
     },

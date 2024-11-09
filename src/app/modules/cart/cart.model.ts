@@ -4,7 +4,8 @@ import { ICart, ICartItem } from "./cart.interface";
 
 
 const cartItemSchema = new Schema<ICartItem>({
-    product:{type:[]},
+    productName:{type:String},
+    // product:{type:[]},
     id: { type: mongoose.Schema.Types.ObjectId, ref: "Product", required: true }, // Assuming you are storing product as a reference
    price:{type:Number},
     quantity: { type: Number, required: true },

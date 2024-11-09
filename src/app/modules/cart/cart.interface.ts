@@ -2,10 +2,11 @@ import mongoose from "mongoose";
 import { IProduct } from "../product/product.interface";
 
 export interface ICartItem extends Document {
-    product: IProduct;
+    // product: IProduct;
     _id?:mongoose.Schema.Types.ObjectId;
-
+    productName:string
     id:mongoose.Schema.Types.ObjectId;
+    ImgUrl:string;
     quantity: number;
     price:number;
     selectedOptions: string[];

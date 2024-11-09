@@ -4,7 +4,7 @@ import mongoose, { Document } from "mongoose"
 
 export interface IOrderItem {
     productId: mongoose.Types.ObjectId;
-    name: string;
+    productName: string;
     quantity: number;
     price:number;
     selectedOptions?: string[];

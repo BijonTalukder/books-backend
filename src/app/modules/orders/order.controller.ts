@@ -5,6 +5,7 @@ import httpsStatus from 'http-status-codes';
 import { JwtHelper } from "../../../helpers/jwt/decodeJwt";
 import { UserModel } from "../users/users.model";
 import { StoreModel } from "../stores/stores.model";
+import mongoose from 'mongoose';
 
 // Create a new order
 const createOrder = async (req: Request, res: Response, next: NextFunction) => {
@@ -35,7 +36,7 @@ const createOrder = async (req: Request, res: Response, next: NextFunction) => {
             paymentMethod,
             
           
-            orderId:"sdfasd",  
+            orderId: new mongoose.Types.ObjectId().toString(),  
             // customerId: userData._id,  
             orderStatus: OrderStatus.Pending,    
             paymentStatus: PaymentStatus.Pending, 
