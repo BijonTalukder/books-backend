@@ -5,6 +5,7 @@ import httpsStatus from "http-status-codes"
 import { JwtHelper } from "../../../helpers/jwt/decodeJwt";
 import { UserModel } from "../users/users.model";
 import { StoreModel } from "../stores/stores.model";
+import { IUploadFile } from "../../interface/file";
 
 const createProductType: RequestHandler = async (
   req: Request,
@@ -23,7 +24,7 @@ const createProductType: RequestHandler = async (
   
     const { ...postBody } = req.body;
     const data = JSON.parse(postBody.data);
-    const ImgUrl = await fileUploadHelper.uploadToCloudinary(req.file);
+    const ImgUrl = await fileUploadHelper.uploadToCloudinary(req.file as IUploadFile);
 
     const finalData = { ...data, ImgUrl: ImgUrl.url,storeId:storeData?._id };
     const result = await productTypeService.createProductType(finalData);
@@ -89,7 +90,7 @@ const getProductTypeStore:RequestHandler = async(req: Request,
   res: Response,
   next: NextFunction)=>{
     console.log("hello dev");
-    const id = req?.id
+    const id = req?.params.id
     // const token = req?.headers.authorization
     // console.log(token);
     
