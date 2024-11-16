@@ -4,7 +4,10 @@ import mongoose, { Model } from "mongoose";
     Active = 'active',
     Inactive = 'inactive',
     Pending = 'pending',
-    Deleted = 'deleted'
+    Deleted = 'deleted',
+    Open='open',
+    Busy='busy',
+    Close='close'
 }
 
 
@@ -13,6 +16,15 @@ export interface IStore extends mongoose.Document {
     userId: mongoose.Types.ObjectId;
     imgUrl: string;
     status: StoreStatus;
+    rating:{
+        average:number,
+        total:number
+    };
+    operatingHours:{
+        open:string;
+        close:string
+    };
+    deliveryFee:number;
     pointLocation: {
         storeAddress: string;
         type:string;

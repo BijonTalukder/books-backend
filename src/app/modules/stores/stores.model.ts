@@ -27,7 +27,35 @@ const storeSchema = new Schema<IStore>({
     },
     status:{
         type:String,
-        enum:["active","inactive","pending","deleted"]
+        enum:["open","closed","busy","active","inactive","pending","deleted"]
+    },
+    rating:{
+        average:{
+            type:Number,
+            default:0,
+            min:0,
+            max:5
+        },
+        totalRatings:{
+            type:Number,
+            default:0
+        }
+    },
+    operatingHours:{
+        open:{
+            type:String,
+            required:true
+        },
+        close:{
+            type:String,
+            required:true
+        }
+
+    },
+    deliveryFee:{
+        type:Number,
+        default:0
+
     },
     userId:{
         type:Schema.Types.ObjectId,
