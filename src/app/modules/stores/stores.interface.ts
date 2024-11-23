@@ -16,6 +16,7 @@ export interface IStore extends mongoose.Document {
     userId: mongoose.Types.ObjectId;
     imgUrl: string;
     status: StoreStatus;
+    storeDetails:string;
     rating:{
         average:number,
         total:number

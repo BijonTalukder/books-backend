@@ -11,6 +11,9 @@ import { ICloudinaryResponse, IUploadFile } from '../app/interface/file';
     });
     const uploadToCloudinary = async(file:IUploadFile):Promise<ICloudinaryResponse>=>{
         return new Promise((resolve,reject)=>{
+
+            console.log(file);
+            
           cloudinary.uploader.upload(file.path,(error:Error,result:ICloudinaryResponse)=>{
             // {
             //     // public_id: file.originalname,

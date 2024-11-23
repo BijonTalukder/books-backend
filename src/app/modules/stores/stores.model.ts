@@ -6,6 +6,9 @@ const storeSchema = new Schema<IStore>({
     storeName:{
         type:String
     },
+    storeDetails:{
+        type:String
+    },
     imgUrl:{
         type:String
     },
@@ -27,7 +30,7 @@ const storeSchema = new Schema<IStore>({
     },
     status:{
         type:String,
-        enum:["open","closed","busy","active","inactive","pending","deleted"]
+        enum:["open","close","busy","active","inactive","pending","deleted"]
     },
     rating:{
         average:{
