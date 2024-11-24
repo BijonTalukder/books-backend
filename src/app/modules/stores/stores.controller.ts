@@ -6,6 +6,7 @@ import { ICloudinaryResponse, IUploadFile } from "../../interface/file";
 import { JwtHelper } from "../../../helpers/jwt/decodeJwt";
 import { UserModel } from "../users/users.model";
 import mongoose from "mongoose";
+import pick from "../../../shared/pick";
 const createStore = async (req: Request,
   res: Response,
   next: NextFunction) => {
@@ -37,7 +38,50 @@ const getStore = async (
   req: Request,
   res: Response,
   next: NextFunction) => {
-  const result = await storeService.getStore();
+  console.log(req.query.lat);
+
+
+  const filter = pick(req.query, ['priceRange', 'deliveryTime', 'category', 'cuisines', 'lat', 'lng'])
+  console.log(filter);
+
+  let query = [];
+  if (filter.priceRange) {
+    query.push({
+      $lte: parseInt(filter?.priceRange as string)
+    })
+
+  }
+  if (filter.deliveryTime) {
+    query.push({
+      $lte: parseInt(filter?.deliveryTime as string)
+    })
+
+  }
+  if(filter.lat && filter.lng)
+  {
+    query.push({
+      $geoNear: {
+        near: {
+          type: "Point",
+          coordinates: [
+           parseFloat(filter.lng as string),
+           parseFloat(filter.lon as string),
+          ],
+        },
+        distanceField: "distance",
+        maxDistance: 10 * 1000,
+        spherical: true,
+      },
+    })
+  }
+
+
+
+
+
+
+
+  const result = await storeService.getStore(query);
 
   res.status(200).json({
     statusCode: httpsStatus.OK,
