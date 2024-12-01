@@ -47,6 +47,8 @@ export interface IOrder extends Document {
     discount: number,
     totalAmount: number,
     estimatedDeliveryTime: Date,
+    totalPaid:number,
+    remainingBalance:number
     placedAt: Date,
     updatedAt: Date
 

@@ -28,6 +28,13 @@ const storeSchema = new Schema<IStore>({
             ]
         }
     },
+    isApproved:{
+        type:String,
+        enum:["approved","reject","pending"],
+        default:"pending"
+
+
+    },
     status:{
         type:String,
         enum:["open","close","busy","active","inactive","pending","deleted"]

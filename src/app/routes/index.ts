@@ -17,4 +17,14 @@ router.use("/product",ProductRouter)
 router.use("/cart",CartRouter)
 router.use("/order",orderRouter)
 
+router.post("/success", paymentController.handlePaymentSuccess);
+
+
+// Fail route - handles failed payment attempts and updates the order status
+router.post('/fail', paymentController.handlePaymentFail);
+
+// Cancel route - handles cancelled payment attempts and updates the order status
+router.post('/cancel', paymentController.handlePaymentCancel);
+
+
 export default router

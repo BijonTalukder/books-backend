@@ -44,6 +44,7 @@ const createOrder = async (req: Request, res: Response, next: NextFunction) => {
             items,
             deliveryAddress,
             paymentMethod,
+            transactionId:tran_id,
 
 
             orderId: new mongoose.Types.ObjectId().toString(),

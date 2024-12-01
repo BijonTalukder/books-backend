@@ -74,6 +74,7 @@ const orderSchema = new Schema<IOrder>({
         required: true,
         default: 0,
     },
+
     discount: {
         type: Number,
         default: 0,
@@ -88,6 +89,16 @@ const orderSchema = new Schema<IOrder>({
     },
     estimatedDeliveryTime: {
         type: Date,
+    },
+    totalPaid: {
+        type: Number,
+        default: 0, 
+    },
+    remainingBalance: {
+        type: Number,
+        default: function() {
+            return this.totalAmount - this.totalPaid;  // Calculate remaining balance based on the total amount
+        }
     },
     placedAt: {
         type: Date,

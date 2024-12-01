@@ -21,6 +21,7 @@ export interface IStore extends mongoose.Document {
         average:number,
         total:number
     };
+    isApproved:string;
     operatingHours:{
         open:string;
         close:string
