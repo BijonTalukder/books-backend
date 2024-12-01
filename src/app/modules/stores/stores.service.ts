@@ -7,7 +7,7 @@ const createStore=async(postBody:any)=>{
     return result;
 }
 const getStore = async(query:any)=>{
-    const result = await StoreModel.find(query)
+    const result = await StoreModel.aggregate(query)
     return result
 }
 const getSingleStore= async(id:any)=>{
