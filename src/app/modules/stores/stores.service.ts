@@ -1,16 +1,16 @@
 import mongoose from "mongoose";
 import { StoreModel } from "./stores.model";
 
-const createStore=async(postBody:any)=>{
+const createStore = async (postBody: any) => {
 
     const result = await StoreModel.create(postBody);
     return result;
 }
-const getStore = async(query:any)=>{
-    const result = await StoreModel.aggregate(query)
-    return result
-}
-const getSingleStore= async(id:any)=>{
+const getStore = async (aggregationPipeline: any[]) => {
+    const result = await StoreModel.aggregate(aggregationPipeline);
+    return result;
+};
+const getSingleStore = async (id: any) => {
     const objectId = new mongoose.Types.ObjectId(id);
 
     // const objectId = mongoose.Types.ObjectId(id);
@@ -44,7 +44,7 @@ const getSingleStore= async(id:any)=>{
 
 }
 
-export const storeService ={
+export const storeService = {
     createStore,
     getStore,
     getSingleStore

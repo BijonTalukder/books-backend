@@ -34,78 +34,90 @@ const createStore = async (req: Request,
 
 }
 
-const getStore = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
-  try {
-    const filter = pick(req.query, [
-      'priceRange',
-      'deliveryTime',
-      'category',
-      'cuisines',
-      'lat',
-      'lng'
-    ]);
-    console.log(filter);
-const searchTerm =pick(req.query,["seachableFiled"]);
-    let query: any[] = [];
+const getStore = async (req: Request, res: Response, next: NextFunction) => {
+  const filter = pick(req.query, [
+    'priceRange',
+    'deliveryTime',
+    'category',
+    'cuisines',
+    'lat',
+    'lng',
+    'search'
+  ]);
 
-    // Add $geoNear if lat and lng are provided
-    if (filter.lat && filter.lng) {
-      query.push({
-        $geoNear: {
-          near: {
-            type: "Point",
-            coordinates: [
-              parseFloat(filter.lng as string),
-              parseFloat(filter.lat as string), // Corrected to use lat
-            ],
-          },
-          distanceField: "distance",
-          maxDistance: 10 * 1000, // 10 km
-          spherical: true,
+  const aggregationPipeline: any[] = [];
+
+  // GeoNear Stage (Only if lat and lng are provided)
+  if (filter.lat && filter.lng) {
+    aggregationPipeline.push({
+      $geoNear: {
+        near: {
+          type: 'Point',
+          coordinates: [
+            parseFloat(filter.lng as string),
+            parseFloat(filter.lat as string),
+          ],
         },
-      });
-    }
+        distanceField: 'distance',
+        maxDistance: 10 * 1000, // 10 kilometers
+        spherical: true,
+      },
+    });
+  }
 
-    // Add $match for priceRange and deliveryTime
-    const match: any = {};
-    if (filter.priceRange) {
-      match.price = { $lte: parseInt(filter.priceRange as string) };
-    }
-    if (filter.deliveryTime) {
-      match.deliveryTime = { $lte: parseInt(filter.deliveryTime as string) };
-    }
+  // Match Stage for filters like priceRange, deliveryTime, category, cuisines
+  const match: any = {};
 
-    // Push $match stage if there are filters
-    if (Object.keys(match).length > 0) {
-      query.push({ $match: match });
-    }
+  if (filter.priceRange) {
+    match.price = { $lte: parseInt(filter.priceRange as string) };
+  }
 
-    // Add additional filters if needed
-    if (filter.category) {
-      match.category = filter.category;
-    }
-    if (filter.cuisines) {
-      match.cuisines = { $in: filter.cuisines.split(",") };
-    }
+  if (filter.deliveryTime) {
+    match.deliveryTime = { $lte: parseInt(filter.deliveryTime as string) };
+  }
 
-    // Fetch data
-    const result = await storeService.getStore(query);
+  if (filter.category) {
+    match.category = filter.category;
+  }
 
+  if (filter.cuisines) {
+    match.cuisines = filter.cuisines;
+  }
+
+  // Add search term filter if provided
+  if (filter.search) {
+    aggregationPipeline.push({
+      $match: {
+        ...match,
+        $or: [
+          {
+            storeName: {
+              $regex: filter.search,
+              $options: 'i' // Case-insensitive search
+            }
+          }
+        ]
+      }
+    });
+  } else if (Object.keys(match).length > 0) {
+    // Add match stage if there are any other filters
+    aggregationPipeline.push({ $match: match });
+  }
+
+  console.log(aggregationPipeline, '--------------------------');
+
+  try {
+    const result = await storeService.getStore(aggregationPipeline);
     res.status(200).json({
       statusCode: httpsStatus.OK,
       success: true,
-      message: "Get store successfully!",
+      message: 'Get store successfully!',
       data: result,
     });
   } catch (error) {
-    next(error);
+    next(error); // Pass error to error-handling middleware
   }
 };
-
 
 const getSingleStore = async (req: Request, res: Response, next: NextFunction) => {
 
