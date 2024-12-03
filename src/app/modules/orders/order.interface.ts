@@ -42,6 +42,7 @@ export interface IOrder extends Document {
     paymentStatus: PaymentStatus,
     paymentMethod: PaymentMethod,
     subTotal: number,
+    transactionId:string,
     deliveryAddress:string
     deliveryFee: number,
     discount: number,

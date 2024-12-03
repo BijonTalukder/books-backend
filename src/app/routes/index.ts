@@ -7,6 +7,7 @@ import { storeRouter } from '../modules/stores/stores.routes'
 import { ProductRouter } from '../modules/product/product.routes'
 import { CartRouter } from '../modules/cart/cart.routes'
 import { orderRouter } from '../modules/orders/order.route'
+import { paymentController } from '../modules/payment/payment.controller'
 const router = express.Router()
 router.use('/books',BooksRoute)
 router.use('/user',UserRoute)
@@ -17,7 +18,7 @@ router.use("/product",ProductRouter)
 router.use("/cart",CartRouter)
 router.use("/order",orderRouter)
 
-// router.post("/success", paymentController.handlePaymentSuccess);
+router.post("/success", paymentController.handlePaymentSuccess);
 
 
 // Fail route - handles failed payment attempts and updates the order status

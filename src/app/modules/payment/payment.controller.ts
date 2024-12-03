@@ -6,13 +6,13 @@ const handlePaymentSuccess = async (req:Request, res:Response, next:NextFunction
     const { transactionId } = req.query;
 
     const orderData = await OrderModel.findOne({
-       
+        transactionId
     })
 
 
     try {
      
-        // res.redirect(`${dotenvHelper.frontend_url}/Product/success`);
+        res.redirect(`http://localhost:3000/Product/success`);
 
     } catch (error) {
     }
@@ -80,8 +80,8 @@ const handlePaymentSuccess = async (req:Request, res:Response, next:NextFunction
 //     }
 // });
 
-// export const paymentController = {
-//     handlePaymentSuccess,
-//     handlePaymentFail,
-//     handlePaymentCancel
-// };
+export const paymentController = {
+    handlePaymentSuccess,
+    // handlePaymentFail,
+    // handlePaymentCancel
+};

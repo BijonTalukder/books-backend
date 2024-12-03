@@ -79,6 +79,10 @@ const orderSchema = new Schema<IOrder>({
         type: Number,
         default: 0,
     },
+    transactionId:{
+        type: String,
+        required: true,
+    },
     totalAmount: {
         type: Number,
         required: true,
