@@ -6,6 +6,9 @@ const storeSchema = new mongoose_1.Schema({
     storeName: {
         type: String
     },
+    storeDetails: {
+        type: String
+    },
     imgUrl: {
         type: String
     },
@@ -25,9 +28,40 @@ const storeSchema = new mongoose_1.Schema({
             ]
         }
     },
+    isApproved: {
+        type: String,
+        enum: ["approved", "reject", "pending"],
+        default: "pending"
+    },
     status: {
         type: String,
-        enum: ["active", "inactive", "pending", "deleted"]
+        enum: ["open", "close", "busy", "active", "inactive", "pending", "deleted"]
+    },
+    rating: {
+        average: {
+            type: Number,
+            default: 0,
+            min: 0,
+            max: 5
+        },
+        totalRatings: {
+            type: Number,
+            default: 0
+        }
+    },
+    operatingHours: {
+        open: {
+            type: String,
+            required: true
+        },
+        close: {
+            type: String,
+            required: true
+        }
+    },
+    deliveryFee: {
+        type: Number,
+        default: 0
     },
     userId: {
         type: mongoose_1.Schema.Types.ObjectId,

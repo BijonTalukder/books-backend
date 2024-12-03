@@ -20,6 +20,8 @@ const decodeJwt_1 = require("../../../helpers/jwt/decodeJwt");
 const users_model_1 = require("../users/users.model");
 const stores_model_1 = require("../stores/stores.model");
 const mongoose_1 = __importDefault(require("mongoose"));
+const uuid_1 = require("uuid");
+const initializeSslPayment_1 = __importDefault(require("../../../helpers/paymentGateway/initializeSslPayment"));
 // Create a new order
 const createOrder = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
@@ -37,12 +39,17 @@ const createOrder = (req, res, next) => __awaiter(void 0, void 0, void 0, functi
         const storeData = yield stores_model_1.StoreModel.findOne({ userId: userData._id });
         // Prepare order data
         const { items, deliveryAddress, paymentMethod } = req.body;
+        const store_id = 'bijon66efc7e8a6d5e';
+        const store_password = 'bijon66efc7e8a6d5e@ssl';
+        const is_live = false;
+        const tran_id = (0, uuid_1.v4)();
         const orderData = {
             userId: userData._id,
             storeId: storeData === null || storeData === void 0 ? void 0 : storeData._id,
             items,
             deliveryAddress,
             paymentMethod,
+            transactionId: tran_id,
             orderId: new mongoose_1.default.Types.ObjectId().toString(),
             // customerId: userData._id,  
             orderStatus: order_interface_1.OrderStatus.Pending,
@@ -55,6 +62,12 @@ const createOrder = (req, res, next) => __awaiter(void 0, void 0, void 0, functi
             // Add other fields as required by the IOrder interface
         };
         const result = yield order_service_1.orderService.createOrder(orderData);
+        if (paymentMethod == "Cash on Delivery") {
+            (0, initializeSslPayment_1.default)(orderData, res, next);
+            return;
+            // Initialize SSLCommerz
+            // Call SSLCommerz API and handle response
+        }
         res.status(http_status_codes_1.default.CREATED).json({
             statusCode: http_status_codes_1.default.CREATED,
             success: true,

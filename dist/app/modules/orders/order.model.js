@@ -99,6 +99,10 @@ const orderSchema = new mongoose_1.Schema({
         type: Number,
         default: 0,
     },
+    transactionId: {
+        type: String,
+        required: true,
+    },
     totalAmount: {
         type: Number,
         required: true,
@@ -109,6 +113,16 @@ const orderSchema = new mongoose_1.Schema({
     },
     estimatedDeliveryTime: {
         type: Date,
+    },
+    totalPaid: {
+        type: Number,
+        default: 0,
+    },
+    remainingBalance: {
+        type: Number,
+        default: function () {
+            return this.totalAmount - this.totalPaid; // Calculate remaining balance based on the total amount
+        }
     },
     placedAt: {
         type: Date,

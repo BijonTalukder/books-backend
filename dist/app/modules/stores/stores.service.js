@@ -19,8 +19,8 @@ const createStore = (postBody) => __awaiter(void 0, void 0, void 0, function* ()
     const result = yield stores_model_1.StoreModel.create(postBody);
     return result;
 });
-const getStore = () => __awaiter(void 0, void 0, void 0, function* () {
-    const result = yield stores_model_1.StoreModel.find({});
+const getStore = (aggregationPipeline) => __awaiter(void 0, void 0, void 0, function* () {
+    const result = yield stores_model_1.StoreModel.aggregate(aggregationPipeline);
     return result;
 });
 const getSingleStore = (id) => __awaiter(void 0, void 0, void 0, function* () {

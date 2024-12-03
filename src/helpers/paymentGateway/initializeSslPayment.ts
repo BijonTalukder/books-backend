@@ -1,6 +1,7 @@
 import { NextFunction, Response } from "express";
 import { v4 as uuidv4 } from 'uuid'
 import ApiError from "../../app/errors/ApiError";
+// @ts-ignore
 import SSLCommerzPayment from 'sslcommerz-lts'
 // const SSLCommerzPayment = require('sslcommerz').SslCommerzPayment
 import httpsStatus from "http-status-codes";

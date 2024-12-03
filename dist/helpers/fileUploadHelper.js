@@ -47,6 +47,7 @@ cloudinary_1.v2.config({
 });
 const uploadToCloudinary = (file) => __awaiter(void 0, void 0, void 0, function* () {
     return new Promise((resolve, reject) => {
+        console.log(file);
         cloudinary_1.v2.uploader.upload(file.path, (error, result) => {
             // {
             //     // public_id: file.originalname,

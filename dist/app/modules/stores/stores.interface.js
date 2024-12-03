@@ -8,5 +8,8 @@ var StoreStatus;
     StoreStatus["Inactive"] = "inactive";
     StoreStatus["Pending"] = "pending";
     StoreStatus["Deleted"] = "deleted";
+    StoreStatus["Open"] = "open";
+    StoreStatus["Busy"] = "busy";
+    StoreStatus["Close"] = "close";
 })(StoreStatus || (exports.StoreStatus = StoreStatus = {}));
 exports.IStoreModel = (mongoose_1.Model);

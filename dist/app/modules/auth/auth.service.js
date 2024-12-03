@@ -20,28 +20,45 @@ const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const LogIn = (payload) => __awaiter(void 0, void 0, void 0, function* () {
     const { email, password } = payload;
     const isEmailExist = yield users_model_1.UserModel.exists({ email });
-    console.log(1);
+    // console.log(1)
     const isPasswordExist = yield users_model_1.UserModel.exists({ password });
-    console.log(isPasswordExist);
+    // console.log(isPasswordExist)
     if (!isEmailExist) {
         throw new ApiError_1.default(http_status_codes_1.default.NOT_FOUND, "email not found");
     }
     if (!isPasswordExist) {
         throw new ApiError_1.default(http_status_codes_1.default.NOT_FOUND, "password not found");
     }
-    const userExist = yield users_model_1.UserModel.findOne({
-        email: email,
-        password: password,
-    });
+    const userExist = yield users_model_1.UserModel.aggregate([
+        {
+            $match: {
+                email: email,
+                password: password,
+            }
+        },
+        {
+            $lookup: {
+                from: 'stores',
+                localField: '_id',
+                foreignField: 'userId',
+                as: 'store'
+            }
+        }
+    ]);
+    // findOne({
+    //   email: email,
+    //   password: password,
+    // });
     console.log(userExist);
     if (userExist) {
-        const payload = { email: userExist.email, role: userExist.role };
+        const payload = { email: userExist[0].email, role: userExist[0].role };
         const jwtToken = jsonwebtoken_1.default.sign(payload, "very-secret", { expiresIn: "365d" });
         return {
             status: http_status_codes_1.default.OK,
             user: {
-                id: userExist._id,
-                email: userExist.email
+                id: userExist[0]._id,
+                email: userExist[0].email,
+                storeId: userExist[0].store[0]._id || null
             },
             token: jwtToken
         };

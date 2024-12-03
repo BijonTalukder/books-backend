@@ -19,6 +19,7 @@ const fileUploadHelper_1 = require("../../../helpers/fileUploadHelper");
 const decodeJwt_1 = require("../../../helpers/jwt/decodeJwt");
 const users_model_1 = require("../users/users.model");
 const mongoose_1 = __importDefault(require("mongoose"));
+const pick_1 = __importDefault(require("../../../shared/pick"));
 const createStore = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     var _a;
     const token = req === null || req === void 0 ? void 0 : req.headers.authorization;
@@ -38,13 +39,77 @@ const createStore = (req, res, next) => __awaiter(void 0, void 0, void 0, functi
     });
 });
 const getStore = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-    const result = yield stores_service_1.storeService.getStore();
-    res.status(200).json({
-        statusCode: http_status_codes_1.default.OK,
-        success: true,
-        message: "get store successfully!",
-        data: result,
-    });
+    const filter = (0, pick_1.default)(req.query, [
+        'priceRange',
+        'deliveryTime',
+        'category',
+        'cuisines',
+        'lat',
+        'lng',
+        'search'
+    ]);
+    const aggregationPipeline = [];
+    // GeoNear Stage (Only if lat and lng are provided)
+    if (filter.lat && filter.lng) {
+        aggregationPipeline.push({
+            $geoNear: {
+                near: {
+                    type: 'Point',
+                    coordinates: [
+                        parseFloat(filter.lng),
+                        parseFloat(filter.lat),
+                    ],
+                },
+                distanceField: 'distance',
+                maxDistance: 10 * 1000,
+                spherical: true,
+            },
+        });
+    }
+    // Match Stage for filters like priceRange, deliveryTime, category, cuisines
+    const match = {};
+    if (filter.priceRange) {
+        match.price = { $lte: parseInt(filter.priceRange) };
+    }
+    if (filter.deliveryTime) {
+        match.deliveryTime = { $lte: parseInt(filter.deliveryTime) };
+    }
+    if (filter.category) {
+        match.category = filter.category;
+    }
+    if (filter.cuisines) {
+        match.cuisines = filter.cuisines;
+    }
+    // Add search term filter if provided
+    if (filter.search) {
+        aggregationPipeline.push({
+            $match: Object.assign(Object.assign({}, match), { $or: [
+                    {
+                        storeName: {
+                            $regex: filter.search,
+                            $options: 'i' // Case-insensitive search
+                        }
+                    }
+                ] })
+        });
+    }
+    else if (Object.keys(match).length > 0) {
+        // Add match stage if there are any other filters
+        aggregationPipeline.push({ $match: match });
+    }
+    console.log(aggregationPipeline, '--------------------------');
+    try {
+        const result = yield stores_service_1.storeService.getStore(aggregationPipeline);
+        res.status(200).json({
+            statusCode: http_status_codes_1.default.OK,
+            success: true,
+            message: 'Get store successfully!',
+            data: result,
+        });
+    }
+    catch (error) {
+        next(error); // Pass error to error-handling middleware
+    }
 });
 const getSingleStore = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     const id = req.params.id;
