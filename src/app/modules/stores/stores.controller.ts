@@ -59,7 +59,7 @@ const getStore = async (req: Request, res: Response, next: NextFunction) => {
           ],
         },
         distanceField: 'distance',
-        maxDistance: 10 * 1000, // 10 kilometers
+        maxDistance: 100 * 1000, // 10 kilometers
         spherical: true,
       },
     });

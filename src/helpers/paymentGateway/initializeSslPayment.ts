@@ -12,15 +12,15 @@ const SSL_PAYMENT_CREDENTIALS = {
 };
 const initializeSslPayment = async (orderData: any, res: Response, next: NextFunction) => {
     // const tran_id = uuidv4();
-    const tran_id = uuidv4();
+    // const tran_id = uuidv4();
     const paymentData = {
         total_amount: orderData.totalAmount,
         currency: 'BDT',
-        tran_id,
-          success_url: `http://localhost:5000/api/v1/success?transactionId=${tran_id}`,
-          fail_url: `http://localhost:5000/api/v1/fail?transactionId=${tran_id}`,
-          cancel_url: `http://localhost:5000/api/v1/cancel?transactionId=${tran_id}`,
-          ipn_url: `http://localhost:5000/api/v1/cancel?transactionId=${tran_id}`,
+        tran_id:orderData.transactionId,
+          success_url: `http://localhost:5000/api/v1/success?transactionId=${orderData.transactionId}`,
+          fail_url: `http://localhost:5000/api/v1/fail?transactionId=${orderData.transactionId}`,
+          cancel_url: `http://localhost:5000/api/v1/cancel?transactionId=${orderData.transactionId}`,
+          ipn_url: `http://localhost:5000/api/v1/cancel?transactionId=${orderData.transactionId}`,
         shipping_method: 'Courier',
         product_name: 'Order Items', // Placeholder name
         product_category: 'software',

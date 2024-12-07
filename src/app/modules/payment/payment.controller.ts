@@ -1,20 +1,31 @@
 import { NextFunction, Request, Response } from "express";
 import OrderModel from "../orders/order.model";
+import { PaymentStatus } from "../orders/order.interface";
 
 // Handle payment success
-const handlePaymentSuccess = async (req:Request, res:Response, next:NextFunction) => {
-    const { transactionId } = req.query;
-
-    const orderData = await OrderModel.findOne({
-        transactionId
-    })
-
-
+const handlePaymentSuccess = async (req: Request, res: Response, next: NextFunction) => {
     try {
-     
-        res.redirect(`http://localhost:3000/Product/success`);
+        const { transactionId } = req.query;
 
+        if (!transactionId) {
+            return res.status(400).json({ error: "Transaction ID is required." });
+        }
+
+        const orderData = await OrderModel.findOne({ transactionId });
+        if (!orderData) {
+            return res.status(404).json({ error: "Order not found." });
+        }
+
+        await OrderModel.updateOne(
+            { transactionId },
+            { $set: { paymentStatus: PaymentStatus.Completed } } 
+        );
+
+        console.log(orderData);
+
+        res.redirect(`http://localhost:3000/payment-success`);
     } catch (error) {
+        next(error); // Pass the error to your error-handling middleware
     }
 };
 
