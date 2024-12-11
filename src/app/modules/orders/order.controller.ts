@@ -11,6 +11,7 @@ import { v4 as uuidv4 } from 'uuid';
 // import SSLCommerzPayment from 'sslcommerz-lts'
 import ApiError from '../../errors/ApiError';
 import initializeSslPayment from '../../../helpers/paymentGateway/initializeSslPayment';
+import pick from '../../../shared/pick';
 // Create a new order
 const createOrder = async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -44,7 +45,7 @@ const createOrder = async (req: Request, res: Response, next: NextFunction) => {
             items,
             deliveryAddress,
             paymentMethod,
-            transactionId:tran_id,
+            transactionId: tran_id,
 
 
             orderId: new mongoose.Types.ObjectId().toString(),
@@ -65,12 +66,12 @@ const createOrder = async (req: Request, res: Response, next: NextFunction) => {
 
             initializeSslPayment(orderData, res, next);
             return;
-       
+
             // Initialize SSLCommerz
- 
+
 
             // Call SSLCommerz API and handle response
-     
+
 
 
         }
@@ -105,8 +106,12 @@ const getAllOrders = async (req: Request, res: Response, next: NextFunction) => 
 // Get orders by store
 const getOrdersByStore = async (req: Request, res: Response, next: NextFunction) => {
     try {
+
+
+        const filters = pick(req.query, ["searchTerm"])
+        const options = pick(req.query, ["limit", "page", "sortBy", "sortOrder"])
         const storeId = req.params.id;
-        const result = await orderService.getOrdersByStore(storeId);
+        const result = await orderService.getOrdersByStore(storeId,filters,options);
 
         res.status(httpsStatus.OK).json({
             statusCode: httpsStatus.OK,
