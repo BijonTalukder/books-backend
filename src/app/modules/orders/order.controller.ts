@@ -87,6 +87,15 @@ const createOrder = async (req: Request, res: Response, next: NextFunction) => {
     }
 };
 
+
+//update order
+const updateOrder= async(req:Request,res:Response,next:NextFunction)=>{
+    try {
+        
+    } catch (error) {
+        
+    }
+}
 // Get all orders
 const getAllOrders = async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -108,7 +117,7 @@ const getOrdersByStore = async (req: Request, res: Response, next: NextFunction)
     try {
 
 
-        const filters = pick(req.query, ["searchTerm"])
+        const filters = pick(req.query, ["searchTerm","orderStatus"])
         const options = pick(req.query, ["limit", "page", "sortBy", "sortOrder"])
         const storeId = req.params.id;
         const result = await orderService.getOrdersByStore(storeId,filters,options);
@@ -144,5 +153,6 @@ export const orderController = {
     createOrder,
     getAllOrders,
     getOrdersByStore,
-    getOrderByUser
+    getOrderByUser,
+    updateOrder
 };

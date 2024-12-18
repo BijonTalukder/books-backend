@@ -14,6 +14,12 @@ const getAllOrders = async () => {
   return result;
 };
 
+const updateOrder=async(id,postBody)=>{
+  const result = await OrderModel.updateOne({
+    _id:id
+  },postBody)
+}
+
 // Get orders by store ID
 const getOrdersByStore = async (storeId: string, filters: any, options: any) => {
   const { limit = 10, page = 1 } = options;
@@ -23,7 +29,6 @@ const getOrdersByStore = async (storeId: string, filters: any, options: any) => 
   // Convert storeId to ObjectId
   const objectId = new mongoose.Types.ObjectId(storeId);
 
-  // Search term filter
   if (filters.searchTerm) {
     andCondition.push({
       $or: [
@@ -36,6 +41,10 @@ const getOrdersByStore = async (storeId: string, filters: any, options: any) => 
   const matchCondition: any = {
     storeId: objectId
   };
+  if(filters.orderStatus)
+  {
+    matchCondition["orderStatus"]=filters.orderStatus
+  }
 
   if (andCondition.length > 0) {
     matchCondition.$and = andCondition;
