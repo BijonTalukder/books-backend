@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+import mongoose, { ObjectId } from "mongoose";
 import OrderModel from "./order.model";
 import { IOrder } from "./order.interface";
 
@@ -14,10 +14,11 @@ const getAllOrders = async () => {
   return result;
 };
 
-const updateOrder=async(id,postBody)=>{
+const updateOrder=async(id:string,postBody:any):Promise<any>=>{
   const result = await OrderModel.updateOne({
     _id:id
   },postBody)
+  return result;
 }
 
 // Get orders by store ID
@@ -118,5 +119,5 @@ export const orderService = {
   createOrder,
   getAllOrders,
   getOrdersByStore,
-  getOrdersByUser
+  getOrdersByUser,updateOrder
 };
